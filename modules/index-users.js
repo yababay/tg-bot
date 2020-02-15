@@ -1,0 +1,26 @@
+const {mainModules} = require('./_labels.js')
+
+module.exports = (bot, tg)=> {
+    Array.from(mainModules.entries()).forEach(entry => {
+        bot.hears(entry[0], require(`./${entry[1]}.js`)(bot))
+    })
+    bot.start(require('./welcome.js')(bot))
+    bot.action(/^sort_photo_(\d+)$/, require('./action-sort-photo.js')(bot))
+    bot.action(/^sort_text_(\d+)$/, require('./action-sort-text.js')(bot))
+    bot.action(/^packs_(\d+)$/, require('./action-packs.js')(bot))
+    bot.action(/^pack_(\d+):(\d+)$/, require('./action-pack.js')(bot))
+    bot.action(/^add_(\d+):(\d+)$/, require('./action-basket-add.js')(bot))
+    bot.action(/^del_(\d+):(\d+)$/, require('./action-basket-del.js')(bot))
+    bot.action(/(edit)_(\d+):(\d+)$/, require('./action-basket-edit.js')(bot))
+    const checkoutCallback = require('./checkout.js')(bot, tg)
+    bot.action('checkout', checkoutCallback)
+    bot.action('confirm', checkoutCallback)
+    bot.action('order', require('./action-order.js')(bot))
+    bot.showBasket = require('./basket.js')(bot)
+    bot.action('basket', bot.showBasket)
+    bot.action('basket_clear', require('./action-basket-clear.js')(bot))
+    bot.deliveryFirst = require('./delivery-first.js')(bot)
+    bot.deliveryEdit = require('./delivery-edit.js')(bot)
+    bot.action('delivery_first', bot.deliveryFirst)
+    bot.action('delivery_edit', bot.deliveryEdit)
+}
