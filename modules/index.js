@@ -1,11 +1,10 @@
-const dict = require('dotenv').config({path: './documents/settings.env'}).parsed
 const fs = require('fs');
 const emojify = require('node-emoji').emojify;
-
 const bluebird = require('bluebird')
 const redis    = require('redis')
 const Telegraf = require('telegraf')
 const Telegram = require('telegraf/telegram')
+const dict = require('dotenv').config({path: './documents/settings.env'}).parsed
 bluebird.promisifyAll(redis.RedisClient.prototype)
 
 const tg = new Telegram(dict.BOT_TOKEN)
@@ -30,5 +29,5 @@ Telegraf.prototype['setUtil'] = function(){
     }
 }
 
-bot.setUserModules = ()=> require('./users.js')(bot, tg)
-bot.setAdminModules = ()=> require('./admins.js')(bot, tg)
+bot.setUserModules = ()=> require('./index-users.js')(bot, tg)
+bot.setAdminModules = ()=> require('./index-admins.js')(bot, tg)
