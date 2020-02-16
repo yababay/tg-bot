@@ -1,7 +1,5 @@
-const {getBackStack} = require('./_labels.js')
-
 module.exports = (bot)=>{
-    return (ctx)=>{
-        ctx.replyWithMarkdown(bot.mdr(__filename), getBackStack('main'))
-    }
+    bot.help((ctx)=>{
+        ctx.fromDocs(__filename, ctx, {disable_web_page_preview: true})
+    })
 }

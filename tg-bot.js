@@ -1,8 +1,5 @@
-#!/usr/bin/end ode
+#!/usr/bin/env node
 
-const {bot} = require('./modules')
-bot.setRedisc()
-bot.setUserModules()
-bot.setAdminModules()
-bot.startPolling()
+const Telegraf = require('./modules')
+new Telegraf(process.env.BOT_TOKEN, true).startPolling()
 

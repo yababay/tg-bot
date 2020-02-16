@@ -1,21 +1,23 @@
+const fs = require('fs');
 let admins = process.env.BOT_ADMINS
 admins = (admins && admins.split(/\ +/)) || [];
 
-module.exports = bot=> {
-    const checkAdmin = (ctx)=> {
-        const usr = ctx.from.username
-        return admins.includes(usr) ? Promise.resolve() : Promise.reject(process.env.YOU_ARE_NOT_ADMIN);
-    }
-    
-    const catcher = (ctx, ex)=> {
-        console.log(ex)
-        ctx.replyWithMarkdown(bot.emojify(typeof ex == 'string' ? ex : process.env.SOMETHING_WENT_WRONG))  
-    }
+const checkAdmin = (ctx)=> {
+    const usr = ctx.from.username
+    return admins.includes(usr) ? Promise.resolve() : Promise.reject(process.env.ERR_YOU_ARE_NOT_ADMIN );
+}
 
-    for(const key of ['help', 'backup', 'password', 'kill']) {
-        bot.command(key, require(`./admin-${key}.js`)(bot, checkAdmin, catcher))
-    }
-    bot.command('manager', require('./manager.js')(bot))
-    bot.command('test', require('./test.js')(bot))
-    bot.on('document',   require('./admin-upload.js')(bot, checkAdmin, catcher))
+const catcher = (ctx, ex)=> {
+    console.log(ex)
+    ctx.replyWithMarkdown(ctx.emojify(typeof ex == 'string' ? ex : process.env.ERR_SOMETHING_WENT_WRONG ))  
+}
+
+module.exports = (bot, tg) => {
+    fs.readdir(__dirname, (err, files)=> {
+        if (err) return console.log('Unable to scan directory: ' + err);
+        files.filter(f => /^doc\-admin/.test(f)).forEach(f => {
+            require(`./${f}`)(bot, tg, checkAdmin, catcher)
+        });
+    });
+    bot.on('document', require('./upload.js')(bot, tg, checkAdmin, catcher))
 }
