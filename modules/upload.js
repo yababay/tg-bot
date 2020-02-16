@@ -8,7 +8,8 @@ const tgApi = req => {
 	.then(res=> res.json())
 }
 
-module.exports = (bot, tg, checkAdmin, catcher)=> {
+module.exports = (bot, tg, checkAdmin)=> {
+    const {catcher} = bot.context
     return async ctx=> {
         try{
             await checkAdmin(ctx)

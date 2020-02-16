@@ -29,7 +29,14 @@ class TelegrafExt extends Telegraf {
                 if(liReg.test(el)) return el.replace(liReg, ':small_blue_diamond: ')
                 return el
             }).join('\n')
+            if(!ctx) return emojify(txt)
             ctx.replyWithMarkdown(emojify(txt), options)
+        }
+        this.context.dbPrefix = process.env['DB_PREFIX']
+        this.context.inviteTtl = process.env['INVITE_TTL']
+        this.context.catcher = (ctx, ex)=> {
+            console.log(ex)
+            ctx.replyWithMarkdown(ctx.emojify(typeof ex == 'string' ? ex : process.env.ERR_SOMETHING_WENT_WRONG ))  
         }
         if(withAdmins) require('./index-admins.js')(this, tg)
         require('./index-users.js')(this, tg)
