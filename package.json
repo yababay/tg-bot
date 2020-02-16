@@ -1,0 +1,24 @@
+{
+  "name": "tg_bot",
+  "version": "1.0.0",
+  "description": "The Telegram bot template based on Telegraf API",
+  "main": "tg-bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yababay/tg-bot.git"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "nodejs"
+  ],
+  "author": "Michael Belyakov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yababay/tg-bot/issues"
+  },
+  "homepage": "https://github.com/yababay/tg-bot#readme"
+}
