@@ -22,8 +22,10 @@
   },
   "homepage": "https://github.com/yababay/tg-bot#readme",
   "dependencies": {
+    "bestzip": "^2.1.5",
     "bluebird": "^3.7.2",
     "dotenv": "^8.2.0",
+    "generate-password": "^1.5.1",
     "node-emoji": "^1.10.0",
     "node-fetch": "^2.6.0",
     "redis": "^3.0.2",
